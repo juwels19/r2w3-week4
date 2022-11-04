@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { NFTCard } from "../components/nftCard";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Home = () => {
 
@@ -7,6 +8,17 @@ const Home = () => {
   const [collection, setCollectionAddress] = useState("");
   const [NFTs, setNFTs] = useState([]);
   const [fetchForCollection, setFetchForCollection] = useState(false);
+
+  const notify = (address) => toast.success(`Copied ${address} to clipboard!`, {
+    position: "top-left",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+    });
 
   const fetchNFTs = async() => {
     let nfts; 
@@ -53,6 +65,18 @@ const Home = () => {
   return (
     // some code here
     <div className="flex flex-col items-center justify-center py-8 gap-y-3">
+      <ToastContainer
+                position="top-left"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
       <div className="flex flex-col w-full justify-center items-center gap-y-2">
         <input disabled={fetchForCollection} onChange={(e) => {setWalletAddress(e.target.value)}} value={wallet} type={"text"} placeholder="Add your wallet address"></input>
         <input onChange={(e) => {setCollectionAddress(e.target.value)}} value={collection} type={"text"} placeholder="Add the collection address"></input>
@@ -71,7 +95,7 @@ const Home = () => {
         {
           NFTs.length && NFTs.map(nft => {
             return (
-              <NFTCard nft={nft}></NFTCard>
+              <NFTCard nft={nft } notify={notify}></NFTCard>
             )
           })
         }

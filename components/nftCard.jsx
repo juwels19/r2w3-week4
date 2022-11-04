@@ -1,9 +1,7 @@
 import Image from "next/image";
-import { useState } from "react";
+import 'react-toastify/dist/ReactToastify.css';
 
-export const NFTCard = ({ nft }) => {
-
-    const [copyToClipboard, setCopyToClipboard] = useState(false);
+export const NFTCard = ({ nft, notify }) => {
 
     function truncateString(string, bp1, bp2) {
         if (bp2 == 0) {
@@ -24,8 +22,8 @@ export const NFTCard = ({ nft }) => {
                 <div className="flex">
                     <div className="flex-none cursor-pointer" onClick={
                         () => {
-                            navigator.clipboard.writeText(nft.contract.address)
-                            setCopyToClipboard(true);
+                            notify(nft.contract.address);
+                            navigator.clipboard.writeText(nft.contract.address);
                         }
                     }>
                         <Image 
